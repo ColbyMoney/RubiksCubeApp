@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { getTouchPositions } from '../utilities/utilities';
 export const cubeWidth = 50;
 export const faceArray = ['front', 'back', 'top', 'bottom', 'left', 'right'];
