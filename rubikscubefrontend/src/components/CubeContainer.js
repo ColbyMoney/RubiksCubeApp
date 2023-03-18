@@ -65,7 +65,7 @@ class CubeContainer extends Component {
         this.elem.addEventListener('touchcancel', this.onTouchEnd);
 
         //Initial position
-        this.rotateCubeSpace(120, 0);
+        this.rotateCubeSpace(-135);
     }
 
     componentWillUnmount() {

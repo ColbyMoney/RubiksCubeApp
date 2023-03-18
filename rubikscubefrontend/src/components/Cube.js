@@ -28,8 +28,8 @@ class Cube extends Component {
         let faceColors = {};
         faceColors.top = this.props.translate[1] === -cubeWidth ? '#fff' : '';
         faceColors.bottom = this.props.translate[1] === cubeWidth ? '#FDCC09' : '';
-        faceColors.left = this.props.translate[0] === -cubeWidth ? '#DC422F' : '';
-        faceColors.right = this.props.translate[0] === cubeWidth ? '#FF6C00' : '';
+        faceColors.left = this.props.translate[0] === -cubeWidth ? '#FF6C00' : '';
+        faceColors.right = this.props.translate[0] === cubeWidth ? '#DC422F' : '';
         faceColors.front = this.props.translate[2] === cubeWidth ? '#009D54' : '';
         faceColors.back = this.props.translate[2] === -cubeWidth ? '#3D81F6' : '';
 
