@@ -1,13 +1,15 @@
+import { array } from "prop-types";
+
 export const toRadians = (angle) => (angle * (Math.PI / 180));
 export const toDegrees = (angle) => (angle * (180 / Math.PI));
 
 /**Return is new position based on current position and resultant roation */
-export const calcPosition = (position, roationVector, angleOfRotation) => {
+export const calcPosition = (position, rotationVector, angleOfRotation) => {
     const cos = (angle) => (Math.cos(toRadians(angle)));
     const sin = (angle) => (Math.sin(toRadians(angle)));
-    const ux = roationVector[0];
-    const uy = roationVector[1];
-    const uz = roationVector[2];
+    const ux = rotationVector[0];
+    const uy = rotationVector[1];
+    const uz = rotationVector[2];
     const angle = angleOfRotation;
     let x = position[0] * (cos(angle) + ux * ux * (1 - cos(angle))) +
         position[1] * (ux * uy * (1 - cos(angle)) - uz * sin(angle)) +
@@ -20,18 +22,31 @@ export const calcPosition = (position, roationVector, angleOfRotation) => {
     let z = position[0] * (uz * ux * (1 - cos(angle)) - uy * sin(angle)) +
         position[1] * (uz * uy * (1 - cos(angle)) + ux * sin(angle)) +
         position[2] * (cos(angle) + uz * uz * (1 - cos(angle)));
+    console.log([x, y, z]);
+    console.log([x / (position[0] * (cos(angle) + ux * ux * (1 - cos(angle))) +
+    position[1] * (ux * uy * (1 - cos(angle)) - uz * sin(angle)) +
+    position[2] * (ux * uz * (1 - cos(angle)) + uy * sin(angle))), 
+
+    y / (position[0] * (uy * ux * (1 - cos(angle)) + uz * sin(angle)) +
+    position[1] * (cos(angle) + uy * uy * (1 - cos(angle))) +
+    position[2] * (uy * uz * (1 - cos(angle)) - ux * sin(angle))), 
+
+    z / (position[0] * (uz * ux * (1 - cos(angle)) - uy * sin(angle)) +
+    position[1] * (uz * uy * (1 - cos(angle)) + ux * sin(angle)) +
+    position[2] * (cos(angle) + uz * uz * (1 - cos(angle))))]);
+
     return [x, y, z];
 };
 
 /**Return is new angle of rotatio and rotation vecctor */
-export const calculateResultantAngle = (alpha, roationVector, currentRotationVector, beta) => {
+export const calculateResultantAngle = (alpha, rotationVector, currentRotationVector, beta) => {
 
     const cos = (angle) => (Math.cos(toRadians(angle)));
     const sin = (angle) => (Math.sin(toRadians(angle)));
 
-    const lx = roationVector[0];
-    const ly = roationVector[1];
-    const lz = roationVector[2];
+    const lx = rotationVector[0];
+    const ly = rotationVector[1];
+    const lz = rotationVector[2];
 
     const mx = currentRotationVector[0];
     const my = currentRotationVector[1];
@@ -74,4 +89,45 @@ export const getTouchPositions=(eve)=>{
     }else{
         return {clientX: eve.clientX, clientY: eve.clientY};
     }
+};
+
+//return true if cube is solved, false if not solved
+export const isSolved=(cubePositions)=>{
+    //solved state to determine if cube is solved
+    const solvedState = {
+        positions: [
+            [0, 0, 0],
+            [-50, 0, 0],
+            [50, 0, 0],
+            [0, -50, 0],
+            [0, 50, 0],
+            [-50, -50, 0],
+            [-50, 50, 0],
+            [50, -50, 0],
+            [50, 50, 0],
+
+            [0, 0, -50],
+            [-50, 0, -50],
+            [50, 0, -50],
+            [0, -50, -50],
+            [0, 50, -50],
+            [-50, -50, -50],
+            [-50, 50, -50],
+            [50, -50, -50],
+            [50, 50, -50],
+
+            [0, 0, 50],
+            [-50, 0, 50],
+            [50, 0, 50],
+            [0, -50, 50],
+            [0, 50, 50],
+            [-50, -50, 50],
+            [-50, 50, 50],
+            [50, -50, 50],
+            [50, 50, 50]]
+    };
+    
+    console.log(solvedState);
+    console.log(cubePositions);
+    return (cubePositions === solvedState);
 };

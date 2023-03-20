@@ -4,7 +4,8 @@ import {
     calcPosition,
     calculateResultantAngle,
     getCubePositionDiffrence,
-    getTouchPositions
+    getTouchPositions,
+    isSolved
 } from '../utilities/utilities';
 
 
@@ -90,6 +91,7 @@ class CubeContainer extends Component {
         });
     }
 
+    //cube layers follow mouse pointer during turns
     rotateCubeSpace(diffX, diffY) {
         let arr = this.state.positions.slice();
         let angleOfRotationArr = [];
@@ -113,6 +115,7 @@ class CubeContainer extends Component {
             });
     }
 
+    //make faces turn where mouse pointer is clicked
     onTouchMove(eve) {
         if (this.state.touchStarted) {
             let diffY = getTouchPositions(eve).clientY - this.state.mousePoint.y;
@@ -129,13 +132,16 @@ class CubeContainer extends Component {
         }
     }
 
+    //finish turn and move cubes after mouse lets go
     onTouchEnd() {
         this.setState({ touchStarted: false, mousePoint: {},touchedFace:undefined });
         if (this.state.faceRotationIndex) {
             this.reArrangeCubes();
+            console.log(isSolved(this.state.positions));
         }
     }
 
+    //responsible for moving the smaller cubes on the faces of the cube during turns
     reArrangeCubes() {
         if (this.state.faceRotationAngle % 90 === 0) {
             this.setState({ faceRotationAngle: 0, faceRotationIndex: null, autoRotation: undefined });
@@ -146,16 +152,17 @@ class CubeContainer extends Component {
                 Math.abs(this.state.faceRotationAngle % 90) > 10
                 ? 3 : 1;
 
-        this.setState({
+        this.setState({ //snap back to original spot if turn is less than 45 degrees
             autoRotation: true, currentMove,
-            reverseAngle: (!this.state.autoRotation && ((Math.abs(this.state.faceRotationAngle % 90) < 30))) ?
+            reverseAngle: (!this.state.autoRotation && ((Math.abs(this.state.faceRotationAngle % 90) < 45))) ?
                 !this.state.reverseAngle : this.state.reverseAngle
-        }, () => {
+        }, () => { //finish the turn if turn is greater than 45 degrees
             this.rotateCube(Math.sqrt(.5), Math.sqrt(.5), null);
             setTimeout(this.reArrangeCubes, .001);
         });
     }
 
+    //responsible for full cube rotations
     /**Method triggered by child cube on cube movement*/
     rotateCube(xAxisMove, yAxisMove, cubePosition, touchedFace, cubeOrientation) {
 
