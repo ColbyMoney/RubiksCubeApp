@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Cube, { cubeWidth, facePosition } from './Cube';
-//import SolvedCube from './SolvedCube';
+//import { rotateCube } from './CubeContainer';
 import {
     calcPosition,
     calculateResultantAngle,
@@ -9,45 +9,8 @@ import {
     isSolved
 } from '../utilities/utilities';
 
-const solvedCube = () => {
-    <CubeContainer
-    positions={[
-        [0, 0, 0],
-            [-50, 0, 0],
-            [50, 0, 0],
-            [0, -50, 0],
-            [0, 50, 0],
-            [-50, -50, 0],
-            [-50, 50, 0],
-            [50, -50, 0],
-            [50, 50, 0],
 
-            [0, 0, -50],
-            [-50, 0, -50],
-            [50, 0, -50],
-            [0, -50, -50],
-            [0, 50, -50],
-            [-50, -50, -50],
-            [-50, 50, -50],
-            [50, -50, -50],
-            [50, 50, -50],
-
-            [0, 0, 50],
-            [-50, 0, 50],
-            [50, 0, 50],
-            [0, -50, 50],
-            [0, 50, 50],
-            [-50, -50, 50],
-            [-50, 50, 50],
-            [50, -50, 50],
-            [50, 50, 50]]}
-    angleOfRotation= {Array(27).fill(0)} 
-    rotationVector= {Array(27).fill([1, 0, 0])}
-    faceRotationAngle= {0}>asdf</CubeContainer>  
-    //console.log("initial " + solvedCube.positions);   
-};
-
-class CubeContainer extends Component {
+class SolvedCube extends CubeContainer {
 
     constructor(props) {
         super(props);
@@ -94,7 +57,7 @@ class CubeContainer extends Component {
         this.rotateCube = this.rotateCube.bind(this);
         this.reArrangeCubes = this.reArrangeCubes.bind(this);
         this.rotateCubeSpace = this.rotateCubeSpace.bind(this);
-        this.faceRotationInit=this.faceRotationInit.bind(this);  
+        this.faceRotationInit=this.faceRotationInit.bind(this);
     }
 
     componentDidMount() {
@@ -105,13 +68,6 @@ class CubeContainer extends Component {
 
         //Initial position
         this.rotateCubeSpace(-135);
-
-        //initialize solvedCube with default values
-        // solvedCube.positions = this.state.positions;
-        // solvedCube.angleOfRotation = this.state.angleOfRotation;
-        // solvedCube.rotationVector = this.state.rotationVector;
-        // solvedCube.faceRotationAngle = this.state.faceRotationAngle;
-        //console.log(solvedCube);
     }
 
     componentWillUnmount() {
@@ -183,10 +139,11 @@ class CubeContainer extends Component {
         if (this.state.faceRotationIndex) {
             this.reArrangeCubes();  
         }
-        //console.log(this.state.positions);
-        //console.log(solvedCube.positions);
-        console.log(isSolved(this.state.positions, solvedCube.positions));
-        //console.log("cube: " + this.state.positions + " solved: " + solvedCube.positions);
+        //const tempCube = this.state;
+        this.rotateCubeSpace(0,0);
+        //tempCube.state.rotateCubeSpace(0,0);
+        //console.log("testing " + tempCube.state.positions);
+        console.log(isSolved(this.state));
     }
 
     //responsible for moving the smaller cubes on the faces of the cube during turns
@@ -206,9 +163,6 @@ class CubeContainer extends Component {
                 !this.state.reverseAngle : this.state.reverseAngle
         }, () => {
             this.rotateCube(Math.sqrt(.5), Math.sqrt(.5), null);
-            setTimeout(this.reArrangeCubes, .001);
-
-            //solvedCube.rotateCube(Math.sqrt(.5), Math.sqrt(.5), null);
             setTimeout(this.reArrangeCubes, .001);
         });
     }
@@ -318,13 +272,9 @@ class CubeContainer extends Component {
                 faceRotationAngle: this.state.faceRotationAngle + (reverseAngle ? -currentMove : currentMove)
             }
         );
-
-        //rotate hidden solved cube to match real cube for comparison
-        solvedCube.positions = arr;
-        solvedCube.angleOfRotation = angleOfRotation;
-        solvedCube.rotationVector = rotationVector;
-        solvedCube.faceRotationAngle = this.state.faceRotationAngle + (reverseAngle ? -currentMove : currentMove)
     }
+
+
 
     getScalingFactor() {
         const minSize = window.innerHeight > window.innerWidth ? window.innerWidth : window.innerHeight;
@@ -355,4 +305,4 @@ class CubeContainer extends Component {
     }
 }
 
-export default CubeContainer;
+export default SolvedCube;

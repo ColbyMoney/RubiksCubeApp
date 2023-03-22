@@ -33,11 +33,13 @@ class Cube extends Component {
         faceColors.front = this.props.translate[2] === cubeWidth ? '#009D54' : '';
         faceColors.back = this.props.translate[2] === -cubeWidth ? '#3D81F6' : '';
 
+        //center pieces
         if (Math.abs(this.props.translate[0]) +
             Math.abs(this.props.translate[1]) +
             Math.abs(this.props.translate[2]) === cubeWidth) {
             this.disableFaceRotation=true;
         }
+        
         this.state = {touchStarted: false, faceColors: faceColors};
     }
 

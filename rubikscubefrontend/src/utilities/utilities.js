@@ -1,4 +1,5 @@
-import { array } from "prop-types";
+//import { array } from "prop-types";
+//import { rotateCubeSpace } from "../components/CubeContainer";
 
 export const toRadians = (angle) => (angle * (Math.PI / 180));
 export const toDegrees = (angle) => (angle * (180 / Math.PI));
@@ -22,6 +23,8 @@ export const calcPosition = (position, rotationVector, angleOfRotation) => {
     let z = position[0] * (uz * ux * (1 - cos(angle)) - uy * sin(angle)) +
         position[1] * (uz * uy * (1 - cos(angle)) + ux * sin(angle)) +
         position[2] * (cos(angle) + uz * uz * (1 - cos(angle)));
+
+    /*
     console.log([x, y, z]);
     console.log([x / (position[0] * (cos(angle) + ux * ux * (1 - cos(angle))) +
     position[1] * (ux * uy * (1 - cos(angle)) - uz * sin(angle)) +
@@ -34,11 +37,12 @@ export const calcPosition = (position, rotationVector, angleOfRotation) => {
     z / (position[0] * (uz * ux * (1 - cos(angle)) - uy * sin(angle)) +
     position[1] * (uz * uy * (1 - cos(angle)) + ux * sin(angle)) +
     position[2] * (cos(angle) + uz * uz * (1 - cos(angle))))]);
+    */
 
     return [x, y, z];
 };
 
-/**Return is new angle of rotatio and rotation vecctor */
+/**Return is new angle of rotation and rotation vector */
 export const calculateResultantAngle = (alpha, rotationVector, currentRotationVector, beta) => {
 
     const cos = (angle) => (Math.cos(toRadians(angle)));
@@ -92,8 +96,26 @@ export const getTouchPositions=(eve)=>{
 };
 
 //return true if cube is solved, false if not solved
-export const isSolved=(cubePositions)=>{
+/* Ideas
+for loop to iterate through all 9 squares on each face to verify same color (props.faceColors perhaps?)
+calculate piece positions with cancelling vectors to compare to solvedState
+calculate piece positions with combining default solvedState positions with the current angle vectors so they match with same parameters
+temp cube set to default rotation 0 degrees to compare to solvedState
+check each face color and verify they are facing the same direction
+
+
+*/
+
+export const isSolved = (cube, solvedCube) => {
+    console.log(cube);
+    console.log(solvedCube);
+    return (cube === solvedCube);
+}
+
+
+//export const isSolved=(cube)=>{
     //solved state to determine if cube is solved
+    /*
     const solvedState = {
         positions: [
             [0, 0, 0],
@@ -124,10 +146,40 @@ export const isSolved=(cubePositions)=>{
             [-50, -50, 50],
             [-50, 50, 50],
             [50, -50, 50],
-            [50, 50, 50]]
+            [50, 50, 50]],
+            angleOfRotation: Array(27).fill(0), 
+            rotationVector: Array(27).fill([1, 0, 0]),
+            faceRotationAngle: 0
     };
-    
-    console.log(solvedState);
-    console.log(cubePositions);
-    return (cubePositions === solvedState);
-};
+    */
+
+    /*
+
+    if (cube.state.faceRotationAngle % 90 === 0) {
+        //this.setState({ faceRotationAngle: 0, faceRotationIndex: null, autoRotation: undefined });
+        return;
+    }
+    const currentMove =
+        Math.abs(this.state.faceRotationAngle % 90) < 80 &&
+            Math.abs(this.state.faceRotationAngle % 90) > 10
+            ? 3 : 1;
+
+    solvedState.setState({ //finish turn to appropriate face depending on turn angle
+        autoRotation: true, currentMove,
+        reverseAngle: (!solvedState.state.autoRotation && ((Math.abs(solvedState.state.faceRotationAngle % 90) < 30))) ?
+            !solvedState.state.reverseAngle : this.state.reverseAngle
+    }, () => {
+        solvedState.rotateCube(Math.sqrt(.5), Math.sqrt(.5), null);
+        setTimeout(solvedState.reArrangeCubes, .001);
+    });*/
+
+    /*
+    for (let i = 0; i < positions.length; i++) {
+        positions[i].calcPosition(positions, cubePositions.rotationVector, cubePositions.angleOfRotation);
+    }*/
+
+    //console.log(solvedState);
+    /*
+    console.log(cube);
+    return (cube === solvedState);*/
+//};
