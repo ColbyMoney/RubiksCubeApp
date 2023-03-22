@@ -158,6 +158,10 @@ class CubeContainer extends Component {
                 angleOfRotation: angleOfRotationArr,
                 rotationVector: rotationVectorArr
             });
+
+        solvedCube.positions = arr;
+        solvedCube.angleOfRotation = angleOfRotationArr;
+        solvedCube.rotationVector = rotationVectorArr;
     }
 
     //make faces turn where mouse pointer is clicked
@@ -206,9 +210,6 @@ class CubeContainer extends Component {
                 !this.state.reverseAngle : this.state.reverseAngle
         }, () => {
             this.rotateCube(Math.sqrt(.5), Math.sqrt(.5), null);
-            setTimeout(this.reArrangeCubes, .001);
-
-            //solvedCube.rotateCube(Math.sqrt(.5), Math.sqrt(.5), null);
             setTimeout(this.reArrangeCubes, .001);
         });
     }
